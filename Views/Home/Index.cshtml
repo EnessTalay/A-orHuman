@@ -1,0 +1,71 @@
+﻿@model aıorhumanv2.Models.TahminViewModel
+<style>
+    body { background-color: #f0f2f5 !important; font-family: 'Segoe UI', sans-serif; }
+    .main-card { border-radius: 20px !important; border: none !important; box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important; background: white; }
+    .btn-analiz { background: linear-gradient(135deg, #007bff 0%, #0056b3 100%) !important; color: white !important; border: none !important; padding: 15px !important; font-weight: bold !important; border-radius: 12px !important; }
+    .progress { height: 18px !important; border-radius: 10px !important; background-color: #eee !important; margin-bottom: 5px; }
+    .result-box { padding: 20px; border-radius: 15px; margin-bottom: 25px; text-align: center; font-weight: bold; }
+    .ai-box { background-color: #fff1f0; border: 1px solid #ffa39e; color: #cf1322; }
+    .human-box { background-color: #f6ffed; border: 1px solid #b7eb8f; color: #389e0d; }
+    .info-note { background-color: #f8f9fa; border-radius: 10px; padding: 12px; font-size: 0.85rem; color: #6c757d; border-left: 4px solid #dee2e6; }
+</style>
+
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold text-primary">AI or Human <small class="text-muted fs-6">v1.0</small></h1>
+        <p class="text-secondary">3 Farklı Model (LR, SVM, NB) ile Gelişmiş Analiz</p>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-7">
+            <div class="card main-card p-4 h-100">
+                <form asp-action="Index" method="post">
+                    @Html.AntiForgeryToken()
+                    @if (!string.IsNullOrEmpty(Model.HataMesaji))
+                    {
+                        <div class="alert alert-danger mb-3" role="alert">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i> @Model.HataMesaji
+                        </div>
+                    }
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-muted uppercase">Analiz Edilecek Metin</label>
+                        <textarea asp-for="Metin" class="form-control border-0 bg-light" rows="14" style="resize:none; border-radius:12px;" required placeholder="Metni buraya yapıştırın..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-analiz w-100">ANALİZ ET</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="card main-card p-4 h-100">
+                <h5 class="fw-bold mb-4">Analiz Sonuçları</h5>
+                @if (Model.FinalAiPercent.HasValue) {
+                    <div class="result-box @(Model.FinalPrediction == "AI" ? "ai-box" : "human-box")">
+                        <span class="small d-block">GENEL TAHMİN</span>
+                        <h2>@Model.FinalPrediction</h2>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between small fw-bold mb-1"><span>Logistic Regression (LR)</span><span>%@Model.Lr.AiPercent AI</span></div>
+                        <div class="progress"><div class="progress-bar bg-danger" style="width:@Model.Lr.AiPercent%"></div><div class="progress-bar bg-success" style="width:@(100-Model.Lr.AiPercent)%"></div></div>
+                    </div>
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between small fw-bold mb-1"><span>Support Vector Machine (SVM)</span><span>%@Model.Svm.AiPercent AI</span></div>
+                        <div class="progress"><div class="progress-bar bg-danger" style="width:@Model.Svm.AiPercent%"></div><div class="progress-bar bg-success" style="width:@(100-Model.Svm.AiPercent)%"></div></div>
+                    </div>
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between small fw-bold mb-1"><span>Naive Bayes (NB)</span><span>%@Model.Nb.AiPercent AI</span></div>
+                        <div class="progress"><div class="progress-bar bg-danger" style="width:@Model.Nb.AiPercent%"></div><div class="progress-bar bg-success" style="width:@(100-Model.Nb.AiPercent)%"></div></div>
+                    </div>
+
+                    <div class="info-note mt-4">
+                        <i class="bi bi-info-circle-fill"></i> Kırmızı: <strong>AI</strong>, Yeşil: <strong>İnsan</strong> yazımı ihtimalini temsil eder.
+                    </div>
+                } else {
+                    <div class="text-center py-5"><i class="bi bi-search display-1 text-light"></i><p class="text-muted mt-3">Henüz bir analiz yapılmadı.</p></div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

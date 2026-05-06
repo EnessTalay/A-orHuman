@@ -1,0 +1,46 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f4f7f9;
+}
+
+.card {
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05) !important;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #1b6ec2 0%, #0d47a1 100%);
+    border: none;
+    border-radius: 10px;
+    padding: 12px 24px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(27, 110, 194, 0.4);
+}
+
+.progress {
+    height: 14px;
+    border-radius: 20px;
+    background-color: #e9ecef;
+}
+
+.result-badge {
+    padding: 15px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.bg-light-danger { background-color: #fff5f5; border: 1px solid #feb2b2; }
+.bg-light-success { background-color: #f0fff4; border: 1px solid #9ae6b4; }
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    line-height: 50px;
+}
